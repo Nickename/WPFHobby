@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WPFHobby.Models;
 
 namespace WPFHobby.ViewModels
@@ -20,18 +16,18 @@ namespace WPFHobby.ViewModels
         public string Title
         {
             get { return _model.Title; }
-            set 
-            { 
+            set
+            {
                 _model.Title = value;
                 RaisePropertyChanged();
             }
         }
-        public string Description
+        public DateTime Date
         {
-            get { return _model.Description; }
+            get { return _model.Date; }
             set
             {
-                _model.Description = value;
+                _model.Date = value;
                 RaisePropertyChanged();
             }
         }

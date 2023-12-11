@@ -3,56 +3,90 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFHobby"
+        xmlns:local="clr-namespace:WPFHobby.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="600">
+
+    <Window.DataContext>
+        <local:HobbyViewModel/>
+    </Window.DataContext>
+
     <Window.Resources>
+
         <Style x:Key="Textbox" TargetType="TextBox">
-            <Setter Property="Width" Value="100"></Setter>
-            <Setter Property="BorderBrush" Value="Red"></Setter>
+            <Setter Property="Width" Value="150"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
         </Style>
+
         <Style x:Key="Buttons" TargetType="Button">
-            <Setter Property="Width" Value="100"></Setter>
-            <Setter Property="BorderBrush" Value="Red"></Setter>
-            <Setter Property="Background" Value="pink"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="10"></Setter>
-            <Setter Property="Padding" Value="5"></Setter>
+            <Setter Property="Width" Value="95"></Setter>
+            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="Background" Value="lightBlue"></Setter>
+            <Setter Property="Margin" Value="10,0,10,0"></Setter>
         </Style>
+
     </Window.Resources>
-    <Grid x:Name="HobbiesGrid">
+
+    <Grid x:Name="HobbiesGrid" Width="500" Height="400" Background="LightGray">
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="70"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button 
-                Style="{StaticResource Buttons}"
-                Command="{Binding AddCommand}">
-                Add Hobby</Button>
-            <Button
-                Style="{StaticResource Buttons}"                
-                Command="{Binding DeleteCommand}">
-                Delete Hobby</Button>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <ListView 
-                BorderBrush="Aqua"
-                BorderThickness="5"
-                Width="200"                 
+
+        <Grid Grid.ColumnSpan="2">
+            <Border Background="LightGreen" BorderBrush="Black" BorderThickness="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+                    <Button 
+                        Style="{StaticResource Buttons}"
+                        Command="{Binding AddCommand}">
+                        Add Hobby
+                    </Button>
+                    <Button
+                        Style="{StaticResource Buttons}"                
+                        Command="{Binding DeleteCommand}"
+                        Background="LightPink">
+                        Delete Hobby
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="left" Grid.Row="1" Margin="10,0,0,0">
+            <Label FontSize="30" FontFamily="Freestyle Script">Hobbies</Label>
+            <ListView            
                 ItemsSource="{Binding Hobbies}"
-                DisplayMemberPath="Title"
-                SelectedItem="{Binding Path=SelectedHobby}">
+                SelectedItem="{Binding SelectedHobby}" FontFamily="Cascadia Code">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Title}" Margin="0,0,10,0"/>
+                            <TextBox Text="{Binding Date, StringFormat=yyyy-MM-dd, UpdateSourceTrigger=PropertyChanged}" Foreground="Red"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBox Style="{StaticResource Textbox}" Text="{Binding SelectedHobby.Title, Mode=TwoWay}"></TextBox>
-            <TextBox Style="{StaticResource Textbox}" Text="{Binding SelectedHobby.Description, Mode=TwoWay}"></TextBox>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0">
+            <Label FontSize="30" FontFamily="Freestyle Script">Title</Label>
+            <TextBox Style="{StaticResource Textbox}" Text="{Binding SelectedHobby.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10">
+            <Label FontSize="30" FontFamily="Freestyle Script">Date</Label>
+            <Calendar DisplayMode="Month" SelectedDate="{Binding SelectedHobby.Date, Mode=TwoWay}"></Calendar>
+        </StackPanel>
+
     </Grid>
+
 </Window>
